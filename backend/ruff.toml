@@ -1,0 +1,12 @@
+line-length = 100
+target-version = "py312"
+
+[lint]
+select = [
+  "E",     # pycodestyle errors
+  "F",     # pyflakes (unused imports and variables)
+  "I",     # import sorting
+  "UP",    # modernize syntax
+  "B",     # likely bugs
+  "ASYNC", # mistakes in async code
+]
