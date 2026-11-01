@@ -10,3 +10,6 @@ select = [
   "B",     # likely bugs
   "ASYNC", # mistakes in async code
 ]
+
+[lint.per-file-ignores]
+"app/scripts/dsa_questions.py" = ["E501"]
