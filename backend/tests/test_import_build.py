@@ -296,8 +296,9 @@ async def test_oversized_checkpoint_file_is_rejected(tmp_path):
 async def test_too_many_checkpoint_files_are_rejected(tmp_path):
     make_project(tmp_path)
     for index in range(20):  # plus the two files make_project already created
-        (tmp_path / BASE / "checkpoint" / f"extra_{index}.py").write_text("x = 1\n", encoding="utf-8")
-
+        extra = tmp_path / BASE / "checkpoint" / f"extra_{index}.py"
+        extra.write_text("x = 1\n", encoding="utf-8")
+        
     with pytest.raises(ContentError, match="at most 20"):
         load_build_content(tmp_path)
 

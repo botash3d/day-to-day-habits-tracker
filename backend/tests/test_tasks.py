@@ -145,7 +145,9 @@ async def test_completed_tasks_cannot_be_edited(client, login_as):
     headers = await login_as("a@example.com")
     task = await create(client, headers)
     await client.post(f"{BASE}/{task['id']}/complete", headers=headers)
-    response = await client.patch(f"{BASE}/{task['id']}", json={"title": "Changed"}, headers=headers)
+    response = await client.patch(
+        f"{BASE}/{task['id']}", json={"title": "Changed"}, headers=headers
+    )
     assert response.status_code == 409
 
 

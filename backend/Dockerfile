@@ -11,4 +11,4 @@ RUN useradd --create-home appuser && chown -R appuser /srv
 USER appuser
 
 EXPOSE 8000
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "alembic upgrade head && python -m app.scripts.seed_problems && python -m app.scripts.import_all && exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

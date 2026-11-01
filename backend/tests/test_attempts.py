@@ -91,12 +91,12 @@ async def test_cannot_touch_another_users_attempt(client, problem_id):
 async def test_discard_only_unfinished(client, problem_id):
     headers = await login(client, "a@example.com")
     first = (await client.post(f"{BASE}/problems/{problem_id}/attempts", headers=headers)).json()
-    assert (await client.delete(f"{BASE}/attempts/{first['id']}", headers=headers)).status_code == 204
-
+    response = await client.delete(f"{BASE}/attempts/{first['id']}", headers=headers)
+    assert response.status_code == 204
     second = (await client.post(f"{BASE}/problems/{problem_id}/attempts", headers=headers)).json()
     await client.post(f"{BASE}/attempts/{second['id']}/finish", json={}, headers=headers)
-    assert (await client.delete(f"{BASE}/attempts/{second['id']}", headers=headers)).status_code == 409
-
+    response = await client.delete(f"{BASE}/attempts/{second['id']}", headers=headers)
+    assert response.status_code == 409
 
 async def test_unknown_problem_is_404(client):
     headers = await login(client, "a@example.com")

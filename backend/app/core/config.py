@@ -1,7 +1,8 @@
 from functools import lru_cache
 from typing import Literal, Self
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
-from pydantic import Field, model_validator
+from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # A production SECRET_KEY containing any of these was copied from an example file.
@@ -14,6 +15,27 @@ _PLACEHOLDER_MARKERS = (
     "example",
 )
 
+
+# libpq options that asyncpg does not understand.
+_UNSUPPORTED_QUERY_KEYS = {"channel_binding"}
+
+
+def normalize_database_url(url: str) -> str:
+    """Turn a hosting provider's Postgres URL into one SQLAlchemy + asyncpg accepts."""
+    for prefix in ("postgres://", "postgresql://"):
+        if url.startswith(prefix):
+            url = "postgresql+asyncpg://" + url[len(prefix) :]
+            break
+    if not url.startswith("postgresql+asyncpg://"):
+        return url  # e.g. sqlite in tests
+
+    parts = urlsplit(url)
+    query = []
+    for key, value in parse_qsl(parts.query, keep_blank_values=True):
+        if key in _UNSUPPORTED_QUERY_KEYS:
+            continue
+        query.append(("ssl" if key == "sslmode" else key, value))
+    return urlunsplit(parts._replace(query=urlencode(query)))
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
@@ -34,6 +56,11 @@ class Settings(BaseSettings):
     @property
     def is_production(self) -> bool:
         return self.environment == "production"
+
+    @field_validator("database_url")
+    @classmethod
+    def normalize_url(cls, value: str) -> str:
+        return normalize_database_url(value)
 
     @model_validator(mode="after")
     def check_production_settings(self) -> Self:
