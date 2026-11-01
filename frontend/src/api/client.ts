@@ -249,3 +249,212 @@ export function reopenTask(id: string) {
 export function deleteTask(id: string) {
   return request<void>(`/tasks/${id}`, { method: "DELETE" });
 }
+
+// ---------- Learn ----------
+
+export type SubjectSummary = {
+  slug: string;
+  title: string;
+  description: string;
+  lesson_count: number;
+  completed_count: number;
+};
+
+export type LessonSummary = {
+  slug: string;
+  title: string;
+  completed: boolean;
+};
+
+export type ModuleOutline = {
+  slug: string;
+  title: string;
+  lessons: LessonSummary[];
+};
+
+export type SubjectDetail = SubjectSummary & {
+  modules: ModuleOutline[];
+  next_lesson_slug: string | null;
+};
+
+export type ExerciseStep = {
+  instruction: string;
+  command: string;
+  expected_output: string;
+  check: string;
+};
+
+export type Exercise = {
+  kind: string;
+  steps: ExerciseStep[];
+};
+
+export type LessonDetail = {
+  slug: string;
+  title: string;
+  body: string;
+  subject_slug: string;
+  subject_title: string;
+  module_slug: string;
+  module_title: string;
+  completed: boolean;
+  completed_at: string | null;
+  previous_slug: string | null;
+  next_slug: string | null;
+  exercise: Exercise | null;
+};
+
+export type LessonProgress = {
+  slug: string;
+  completed: boolean;
+  completed_at: string | null;
+};
+
+function lessonPath(subjectSlug: string, lessonSlug: string): string {
+  return `/learn/subjects/${encodeURIComponent(subjectSlug)}/lessons/${encodeURIComponent(lessonSlug)}`;
+}
+
+export function getSubjects() {
+  return request<SubjectSummary[]>("/learn/subjects");
+}
+
+export function getSubject(subjectSlug: string) {
+  return request<SubjectDetail>(
+    `/learn/subjects/${encodeURIComponent(subjectSlug)}`,
+  );
+}
+
+export function getLesson(subjectSlug: string, lessonSlug: string) {
+  return request<LessonDetail>(lessonPath(subjectSlug, lessonSlug));
+}
+
+export function completeLesson(subjectSlug: string, lessonSlug: string) {
+  return request<LessonProgress>(`${lessonPath(subjectSlug, lessonSlug)}/progress`, {
+    method: "PUT",
+  });
+}
+
+export function uncompleteLesson(subjectSlug: string, lessonSlug: string) {
+  return request<void>(`${lessonPath(subjectSlug, lessonSlug)}/progress`, {
+    method: "DELETE",
+  });
+}
+
+
+// ---------- Build ----------
+
+export type BuildPageRef = {
+  module_slug: string;
+  page_slug: string;
+  title: string;
+};
+
+export type BuildProjectSummary = {
+  slug: string;
+  title: string;
+  description: string;
+  module_count: number;
+  page_count: number;
+  completed_count: number;
+};
+
+export type BuildPageSummary = {
+  slug: string;
+  title: string;
+  kind: string;
+  completed: boolean;
+};
+
+export type BuildModuleOutline = {
+  slug: string;
+  title: string;
+  summary: string;
+  page_count: number;
+  completed_count: number;
+  pages: BuildPageSummary[];
+};
+
+export type BuildProjectDetail = BuildProjectSummary & {
+  modules: BuildModuleOutline[];
+  next_page: BuildPageRef | null;
+};
+
+export type CheckpointFile = {
+  path: string;
+  content: string;
+};
+
+export type BuildPageDetail = {
+  slug: string;
+  title: string;
+  kind: string;
+  body: string;
+  hints: string[];
+  project_slug: string;
+  project_title: string;
+  module_slug: string;
+  module_title: string;
+  page_number: number;
+  module_page_count: number;
+  completed: boolean;
+  completed_at: string | null;
+  previous: BuildPageRef | null;
+  next: BuildPageRef | null;
+  checkpoint: CheckpointFile[];
+};
+
+export type BuildPageProgress = {
+  slug: string;
+  completed: boolean;
+  completed_at: string | null;
+};
+
+function buildPagePath(
+  projectSlug: string,
+  moduleSlug: string,
+  pageSlug: string,
+): string {
+  return `/build/projects/${encodeURIComponent(projectSlug)}/modules/${encodeURIComponent(moduleSlug)}/pages/${encodeURIComponent(pageSlug)}`;
+}
+
+export function getBuildProjects() {
+  return request<BuildProjectSummary[]>("/build/projects");
+}
+
+export function getBuildProject(projectSlug: string) {
+  return request<BuildProjectDetail>(
+    `/build/projects/${encodeURIComponent(projectSlug)}`,
+  );
+}
+
+export function getBuildPage(
+  projectSlug: string,
+  moduleSlug: string,
+  pageSlug: string,
+) {
+  return request<BuildPageDetail>(
+    buildPagePath(projectSlug, moduleSlug, pageSlug),
+  );
+}
+
+export function markBuildPageDone(
+  projectSlug: string,
+  moduleSlug: string,
+  pageSlug: string,
+) {
+  return request<BuildPageProgress>(
+    `${buildPagePath(projectSlug, moduleSlug, pageSlug)}/progress`,
+    { method: "PUT" },
+  );
+}
+
+export function clearBuildPageDone(
+  projectSlug: string,
+  moduleSlug: string,
+  pageSlug: string,
+) {
+  return request<void>(
+    `${buildPagePath(projectSlug, moduleSlug, pageSlug)}/progress`,
+    { method: "DELETE" },
+  );
+}

@@ -35,6 +35,17 @@ function Navbar() {
                 <Link className="btn btn-ghost" to="/dsa">
                   DSA
                 </Link>
+                <Link className="btn btn-ghost" to="/learn">
+                  Learn
+                </Link>
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  disabled
+                  title="Coming soon"
+                >
+                  Build <span className="btn-tag">Soon</span>
+                </button>
                 <Link className="btn btn-primary" to="/dashboard">
                   Dashboard
                 </Link>
@@ -74,10 +85,18 @@ function Hero() {
           >
             {user ? "Go to dashboard" : "Get started"}
           </Link>
-                    {user ? (
-            <Link className="btn btn-ghost btn-lg" to="/dsa">
-              Practice DSA
-            </Link>
+          {user ? (
+            <>
+              <Link className="btn btn-ghost btn-lg" to="/dsa">
+                Practice DSA
+              </Link>
+              <Link className="btn btn-ghost btn-lg" to="/learn">
+                Learn
+              </Link>
+                <Link className="btn btn-ghost" to="/build">
+                  Build
+                </Link>
+            </>
           ) : (
             <a className="btn btn-ghost btn-lg" href="#features">
               See features

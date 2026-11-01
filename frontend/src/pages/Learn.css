@@ -1,0 +1,93 @@
+/* ---------- Course list and course page ---------- */
+.learn-subjects { display: grid; gap: 1rem; margin: 1.25rem 0 0; padding: 0; list-style: none; }
+.learn-subject { display: flex; align-items: center; justify-content: space-between; gap: 1.25rem; padding: 1.1rem 1.25rem; border: 1px solid #e5e7eb; border-radius: 12px; }
+.learn-subject-main { flex: 1; min-width: 0; }
+.learn-subject h2 { margin: 0 0 0.25rem; font-size: 1.15rem; }
+.learn-subject p { margin: 0 0 0.75rem; color: #4b5563; font-size: 0.95rem; line-height: 1.5; }
+.learn-lead { margin: -0.5rem 0 1.25rem; color: #4b5563; line-height: 1.6; }
+
+.learn-progress-row { display: flex; align-items: center; gap: 0.75rem; }
+.learn-bar { flex: 1; height: 8px; overflow: hidden; background: #e5e7eb; border-radius: 999px; }
+.learn-bar > span { display: block; height: 100%; background: #2563eb; border-radius: inherit; }
+.learn-progress-row .muted { flex: none; white-space: nowrap; }
+
+.learn-continue { margin: 1.25rem 0 0.5rem; }
+.learn-continue p { margin: 0; }
+
+.learn-module { margin-top: 1.75rem; }
+.learn-module-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.learn-module h2 { margin: 0; font-size: 1.05rem; }
+.learn-lessons { margin: 0.5rem 0 0; padding: 0; list-style: none; }
+.learn-lessons li { border-top: 1px solid #e5e7eb; }
+.learn-lessons a { display: flex; align-items: center; gap: 0.7rem; padding: 0.75rem 0.4rem; color: #111827; text-decoration: none; border-radius: 6px; }
+.learn-lessons a:hover { background: #f9fafb; }
+.learn-lesson-mark { flex: none; width: 1.2rem; color: #9ca3af; text-align: center; }
+.learn-lesson-mark.is-done { color: #16a34a; font-weight: 700; }
+
+@media (max-width: 560px) {
+  .learn-subject { flex-direction: column; align-items: stretch; }
+}
+
+/* ---------- Lesson page ---------- */
+.learn-head { margin-bottom: 1.5rem; }
+.learn-head h1 { margin-bottom: 0.5rem; }
+.chip.learn-done-chip { color: #166534; background: #dcfce7; }
+
+.learn-prose { color: #1f2937; line-height: 1.7; overflow-wrap: anywhere; }
+.learn-prose > :first-child { margin-top: 0; }
+.learn-prose > :last-child { margin-bottom: 0; }
+.learn-prose h2 { margin: 2rem 0 0.5rem; font-size: 1.3rem; line-height: 1.3; }
+.learn-prose h3 { margin: 1.5rem 0 0.4rem; font-size: 1.1rem; }
+.learn-prose p { margin: 0.75rem 0; }
+.learn-prose ul, .learn-prose ol { margin: 0.75rem 0; padding-left: 1.5rem; }
+.learn-prose li { margin: 0.3rem 0; }
+.learn-prose a { color: #2563eb; }
+.learn-prose blockquote { margin: 1rem 0; padding: 0.1rem 1rem; color: #4b5563; border-left: 4px solid #d1d5db; }
+.learn-prose hr { margin: 2rem 0; border: 0; border-top: 1px solid #e5e7eb; }
+.learn-prose img { max-width: 100%; height: auto; }
+.learn-prose table { display: block; max-width: 100%; margin: 1rem 0; overflow-x: auto; border-collapse: collapse; }
+.learn-prose th, .learn-prose td { padding: 0.5rem 0.75rem; text-align: left; border: 1px solid #e5e7eb; }
+.learn-prose th { background: #f9fafb; }
+.learn-prose code { padding: 0.1rem 0.35rem; font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; font-size: 0.875em; background: #f3f4f6; border-radius: 4px; }
+
+/* Code blocks: lecture code and exercise commands */
+.learn-code { margin: 1rem 0; overflow: hidden; background: #0f172a; border-radius: 10px; }
+.learn-code-bar { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.35rem 0.6rem 0.35rem 0.9rem; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; }
+.learn-code .learn-code-bar { color: #94a3b8; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.learn-code pre { margin: 0; padding: 0.9rem 1rem; overflow-x: auto; color: #e2e8f0; font: 0.875rem/1.55 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; }
+.learn-code pre code { padding: 0; font: inherit; background: none; border-radius: 0; }
+.learn-code .learn-copy { color: #cbd5e1; border-color: rgba(255, 255, 255, 0.18); text-transform: none; letter-spacing: 0; }
+.learn-code .learn-copy:hover:not(:disabled) { color: #fff; background: rgba(255, 255, 255, 0.1); }
+
+/* Syntax colours (classes added by rehype-highlight) */
+.learn-code .hljs-keyword, .learn-code .hljs-selector-tag, .learn-code .hljs-doctag { color: #c4b5fd; }
+.learn-code .hljs-string, .learn-code .hljs-regexp, .learn-code .hljs-addition { color: #86efac; }
+.learn-code .hljs-number, .learn-code .hljs-literal, .learn-code .hljs-symbol, .learn-code .hljs-bullet { color: #fdba74; }
+.learn-code .hljs-comment, .learn-code .hljs-quote, .learn-code .hljs-meta { color: #94a3b8; font-style: italic; }
+.learn-code .hljs-title, .learn-code .hljs-section { color: #7dd3fc; }
+.learn-code .hljs-built_in, .learn-code .hljs-type, .learn-code .hljs-class { color: #fcd34d; }
+.learn-code .hljs-attr, .learn-code .hljs-attribute, .learn-code .hljs-variable, .learn-code .hljs-property { color: #67e8f9; }
+.learn-code .hljs-deletion { color: #fca5a5; }
+
+/* ---------- Try it ---------- */
+.learn-exercise { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 2px solid #e5e7eb; }
+.learn-exercise-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 1rem; }
+.learn-exercise-head h2 { margin: 0; font-size: 1.35rem; }
+.learn-exercise > .muted { margin: 0.25rem 0 0; }
+
+.learn-steps { display: grid; gap: 1rem; margin: 1.25rem 0 0; padding: 0; list-style: none; }
+.learn-step { display: flex; gap: 1rem; padding: 1rem; border: 1px solid #e5e7eb; border-radius: 12px; }
+.learn-step.is-done { background: #f0fdf4; border-color: #bbf7d0; }
+.learn-step-num { display: grid; flex: none; place-items: center; width: 1.9rem; height: 1.9rem; color: #fff; font-size: 0.9rem; font-weight: 700; background: #2563eb; border-radius: 50%; }
+.learn-step.is-done .learn-step-num { background: #16a34a; }
+.learn-step-body { flex: 1; min-width: 0; }
+
+.learn-output { margin: 0.75rem 0; overflow: hidden; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 10px; }
+.learn-output .learn-code-bar { color: #64748b; border-bottom: 1px solid #e5e7eb; }
+.learn-output pre { margin: 0; padding: 0.75rem 1rem; overflow-x: auto; color: #1f2937; font: 0.875rem/1.55 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; white-space: pre-wrap; }
+
+.learn-check { display: flex; flex-direction: row; align-items: flex-start; gap: 0.6rem; margin-top: 0.75rem; font-weight: 500; cursor: pointer; }
+.learn-check input { flex: none; width: 1.15rem; height: 1.15rem; margin-top: 0.2rem; padding: 0; }
+
+/* ---------- Lesson footer ---------- */
+.learn-lesson-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid #e5e7eb; }

@@ -1,20 +1,18 @@
 import uuid
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 
 from app.api.deps import CurrentUser, SessionDep, get_current_user
 from app.models.problem import Problem
 from app.schemas.attempt import AttemptPublic, FinishAttempt
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
-
-from app.schemas.streak import StreakStats
-from app.services.streaks import get_streaks
 from app.schemas.problem import (
     DsaStats,
     ProblemDetail,
     ProblemPublic,
     ProblemWithStats,
 )
+from app.schemas.streak import StreakStats
 from app.services.attempt_service import (
     AttemptAlreadyFinishedError,
     AttemptNotFoundError,
@@ -25,6 +23,7 @@ from app.services.attempt_service import (
     to_public,
 )
 from app.services.dsa_stats import get_stats, list_history, list_problems_with_stats
+from app.services.streaks import get_streaks
 
 router = APIRouter(
     prefix="/dsa",
